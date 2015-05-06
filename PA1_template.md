@@ -85,7 +85,7 @@ totalstep_date <- hist(sumbydate$steps, breaks = 10, main = "Histogram of Total 
 ```{r}
 stepmean <- mean(sumbydate$steps, na.rm = TRUE)
 stepmedian <- median(sumbydate$steps, na.rm = TRUE)
-echo = TRUE
+echo = FALSE
 stepmean
 stepmedian
 ```
@@ -108,6 +108,7 @@ head(meanbyinterval)
 ```{r}
 ## Subsets the day that has the highst "steps" average
 highsteps <- subset(meanbyinterval$interval, meanbyinterval$mean == max(meanbyinterval$mean))
+echo = FALSE
 highsteps
 ```
 
@@ -117,6 +118,7 @@ Inputting missing values
 
 ```{r}
 missingvalues <- sum(is.na(activity$steps))
+echo = FALSE
 missingvalues
 ```
 
@@ -213,12 +215,14 @@ totalstep_date_nareplace <- hist(sumbydate_nareplace$steps, breaks = 10, main = 
 stepmean_nareplace <- mean(sumbydate_nareplace$steps, na.rm = TRUE)
 stepmean_nareplace
 stepmedian_nareplace <- median(sumbydate_nareplace$steps, na.rm = TRUE)
+echo = FALSE
 stepmedian_nareplace
 ```
 
 This is the difference between the mean and median with NAs and the mean and median with the NAs replaced with the daily mean.  
 
 ```{r}
+echo = FALSE
 stepmean - stepmean_nareplace
 stepmedian - stepmedian_nareplace
 ```
