@@ -72,6 +72,15 @@ activity <- cbind(activity, days)
 sumbydate <-aggregate(activity$steps, by=list(activity$date), FUN=sum, na.rm=TRUE)
 names(sumbydate) <- c("date", "steps")
 head(sumbydate)
+
+##         date steps
+## 1 2012-10-01     0
+## 2 2012-10-02   126
+## 3 2012-10-03 11352
+## 4 2012-10-04 12116
+## 5 2012-10-05 13294
+## 6 2012-10-06 15420
+
 ```
 
 2. If you do not understand the difference between a histogram and a barplot, research the difference between them. Make a histogram of the total number of steps taken each day
@@ -87,7 +96,9 @@ stepmean <- mean(sumbydate$steps, na.rm = TRUE)
 stepmedian <- median(sumbydate$steps, na.rm = TRUE)
 echo = FALSE
 stepmean
+## [1] 9354.23
 stepmedian
+## [1] 10395
 ```
 
 What is the average daily activity pattern? 
@@ -101,6 +112,15 @@ meanbyinterval <- aggregate(activity$steps, by = list(activity$interval), FUN = 
 meanbyintervalplot <- plot(meanbyinterval, type = "l", main = "Steps per Interval (Time Series)", col = "blue", xlab = "5 Minute Interval", ylab = "Total Number of Steps")
 names(meanbyinterval) <- c("interval", "mean")
 head(meanbyinterval)
+
+##   interval      mean
+## 1        0 1.7169811
+## 2        5 0.3396226
+## 3       10 0.1320755
+## 4       15 0.1509434
+## 5       20 0.0754717
+## 6       25 2.0943396
+
 ```
 
 2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
@@ -110,6 +130,9 @@ head(meanbyinterval)
 highsteps <- subset(meanbyinterval$interval, meanbyinterval$mean == max(meanbyinterval$mean))
 echo = FALSE
 highsteps
+
+## [1] 835
+
 ```
 
 Inputting missing values
@@ -120,6 +143,9 @@ Inputting missing values
 missingvalues <- sum(is.na(activity$steps))
 echo = FALSE
 missingvalues
+
+## [1] 2304
+
 ```
 
 2. Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
@@ -131,6 +157,15 @@ The following code creates a new dataframe called "nareplace". In this new dataf
 meanbyday <- aggregate(activity$steps, by = list(activity$days), FUN = mean, na.rm = TRUE)
 names(meanbyday) <- c("day", "mean")
 meanbyday
+
+##         day     mean
+## 1   domingo 42.63095
+## 2    jueves 28.51649
+## 3     lunes 34.63492
+## 4    martes 31.07485
+## 5 miércoles 40.94010
+## 6    sábado 43.52579
+## 7   viernes 42.91567
 
 ## Creates a new data.frame based on the original data (activity) then NAs are replaced for each day with the mean for the corresponding day taken from the previous data.frame 
 
@@ -199,7 +234,25 @@ The new datbase is "nareplace". These are the first values of the original datab
 
 ```{r}
 head(activity)
+
+##   steps       date interval  days
+## 1    NA 2012-10-01        0 lunes
+## 2    NA 2012-10-01        5 lunes
+## 3    NA 2012-10-01       10 lunes
+## 4    NA 2012-10-01       15 lunes
+## 5    NA 2012-10-01       20 lunes
+## 6    NA 2012-10-01       25 lunes
+
 head(nareplace)
+
+##      steps       date interval  days
+## 1 34.63492 2012-10-01        0 lunes
+## 2 34.63492 2012-10-01        5 lunes
+## 3 34.63492 2012-10-01       10 lunes
+## 4 34.63492 2012-10-01       15 lunes
+## 5 34.63492 2012-10-01       20 lunes
+## 6 34.63492 2012-10-01       25 lunes
+
 ```
 
 4. Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
@@ -210,13 +263,27 @@ sumbydate_nareplace <-aggregate(nareplace$steps, by=list(nareplace$date), FUN=su
 names(sumbydate_nareplace) <- c("date", "steps")
 head(sumbydate_nareplace)
 
+##         date     steps
+## 1 2012-10-01  9974.857
+## 2 2012-10-02   126.000
+## 3 2012-10-03 11352.000
+## 4 2012-10-04 12116.000
+## 5 2012-10-05 13294.000
+## 6 2012-10-06 15420.000
+
 totalstep_date_nareplace <- hist(sumbydate_nareplace$steps, breaks = 10, main = "Histogram of Total Steps Taken per Day with NA replaced by Daily Means", col = "orange", xlab = "Number of Steps")
 
 stepmean_nareplace <- mean(sumbydate_nareplace$steps, na.rm = TRUE)
 stepmean_nareplace
+
+## [1] 10821.21
+
 stepmedian_nareplace <- median(sumbydate_nareplace$steps, na.rm = TRUE)
 echo = FALSE
 stepmedian_nareplace
+
+## [1] 11015
+
 ```
 
 This is the difference between the mean and median with NAs and the mean and median with the NAs replaced with the daily mean.  
@@ -224,7 +291,13 @@ This is the difference between the mean and median with NAs and the mean and med
 ```{r}
 echo = FALSE
 stepmean - stepmean_nareplace
+
+## [1] -1466.98
+
 stepmedian - stepmedian_nareplace
+
+## [1] -620
+
 ```
 
 This is a big impact. The mean and median changes by about 10% which, in some cases, is a considerable amount. 
