@@ -73,6 +73,13 @@ sumbydate <-aggregate(activity$steps, by=list(activity$date), FUN=sum, na.rm=TRU
 names(sumbydate) <- c("date", "steps")
 head(sumbydate)
 ```
+        date steps
+1 2012-10-01     0
+2 2012-10-02   126
+3 2012-10-03 11352
+4 2012-10-04 12116
+5 2012-10-05 13294
+6 2012-10-06 15420
 
 2. If you do not understand the difference between a histogram and a barplot, research the difference between them. Make a histogram of the total number of steps taken each day
 
@@ -87,7 +94,9 @@ stepmean <- mean(sumbydate$steps, na.rm = TRUE)
 stepmedian <- median(sumbydate$steps, na.rm = TRUE)
 echo = FALSE
 stepmean
+## [1] 9354.23
 stepmedian
+## [1] 10395
 ```
 
 What is the average daily activity pattern? 
